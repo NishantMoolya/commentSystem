@@ -1,8 +1,11 @@
 import React from 'react'
+import ReplySeries from './ReplySeries'
 
 const Master = () => {
   return (
-    <div>Master</div>
+    <div>
+      <ReplySeries />
+    </div>
   )
 }
 

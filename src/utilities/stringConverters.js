@@ -27,4 +27,14 @@ function stringAvatar(name) {
     }
   }
 
+  let date = new Date();
+  console.log(date);
+  console.log(date.getTime());
+  let d = new Date("2024-04-07T05:45:03.993Z");
+  console.log(d.getTime());
+  const diff = Date.now() - d.getTime();
+  console.log(diff);
+  console.log(new Date(Date.now()));
+  
+  //diff = 60*1000*5;
   module.exports = { stringAvatar }

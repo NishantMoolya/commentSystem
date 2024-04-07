@@ -1,0 +1,59 @@
+.replybox_frame{
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--background-dark);
+    /* border-radius: 0.5rem; */
+    border-top: none;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    /* box-shadow: 0px 1px 4px #616161; */
+}
+.replybox_user_avatar{
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 50%;
+}
+.replybox_header{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--background-dark);
+    text-transform: capitalize;
+}
+.replybox_header > h4{
+    color:var(--font-light);
+}
+.replybox_input{
+    width: 100%;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    font-size: 1rem;
+    font-weight: 400;
+    resize: none;
+}
+.replybox_main_section{
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+}
+#replybox_reply_btn{
+    align-self: flex-end;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 1rem;
+    padding: 0.4em 0.8em;
+    border-radius: 1em;
+    text-transform: capitalize;
+}
+@media only screen and (max-width:550px) {
+    .replybox_header{
+        padding: 0.2rem;
+    }
+    .replybox_header > h4{
+        font-size: 0.9rem;
+    }
+}

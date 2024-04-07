@@ -1,0 +1,16 @@
+.replypage_frame{
+    padding-block: 1rem;
+    padding-inline: 1rem;
+    background-color: var(--background-light);
+}
+.replypage_replies{
+    display:flex;
+    flex-direction: column;
+    padding:0.5rem;
+    margin-top: 0.5rem;
+}
+@media only screen and (max-width:550px) {
+    .replypage_frame{
+        padding-inline: 0.4rem;
+    }
+}

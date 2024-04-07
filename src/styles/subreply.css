@@ -43,6 +43,13 @@
     background-color: transparent;
     color: var(--primary-color);
 }
+.subreply_loadmore_btn{
+    position: relative;
+    background-color: transparent;
+    border: none;
+    font-size:1rem;
+    color: var(--primary-color);
+}
 @media only screen and (max-width:550px) {
     .subreply_input_box{
         padding-inline: 0.2rem;

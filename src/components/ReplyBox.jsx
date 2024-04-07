@@ -4,13 +4,15 @@ import Avatar from './Avatar'
 
 const ReplyBox = ({ addReply }) => {
   const initialData = {
-    name:"nishant moolya",
+    answerer:{
+      name:"nishant moolya",
+      role:"student"
+    },
     date:"",
-    child:[],
+    subreplies:[],
     parent:true,
-    content:"",
+    reply:"",
     _id:null,
-    role:"student"
   }
   const [content,setContent] = useState(initialData);
   const handleContent = (e) => {
@@ -18,10 +20,10 @@ const ReplyBox = ({ addReply }) => {
     setContent(prev => ({...prev,[name]:value}));
   }
   const handleReply = () => {
-    content.content = content.content.trim();
+    content.content = content.reply.trim();
     content.date = new Date();
     content._id = Date.now();
-    addReply(content);
+    addReply([content]);
     setContent(initialData);
   }
   return (
@@ -33,7 +35,7 @@ const ReplyBox = ({ addReply }) => {
         <h4>nishant moolya</h4>
         </div>
         <div className='replybox_main_section'>
-            <textarea className='replybox_input' rows={'4'} placeholder='write your answer' name='content' value={content.content} onChange={handleContent} />
+            <textarea className='replybox_input' rows={'4'} placeholder='write your answer' name='reply' value={content.reply} onChange={handleContent} />
             <button id='replybox_reply_btn' onClick={handleReply}>reply <i className="fa-solid fa-paper-plane"></i></button>
         </div>
     </div>

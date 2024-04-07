@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import '../styles/reply.css'
 import SubReply from './SubReply';
 import Avatar from './Avatar';
+import { fetchSubReplies } from '../api/fetcher';
 
 const Reply = ({ parent,reply,addReply,handleMention,removeReply }) => {
   const [show, setShow] = useState(false);
@@ -27,26 +28,37 @@ const Reply = ({ parent,reply,addReply,handleMention,removeReply }) => {
       else removeReply(reply._id);
     }
   }
+  const [lock, setLock] = useState(true);
+  const handleSubReplies = () => {
+    setShow(prev => !prev);
+    if(lock && !show){
+      fetchSubReplies(reply._id).then(data => {
+        console.log(data);
+        addReply(data,reply._id);
+      });
+      setLock(false);
+    }
+  }
   return (
     <div>
     <div className='reply_frame'>
       <div className='reply_header'>
         <div className='reply_user_avatar'>
-          <Avatar author={reply.name} />
+          <Avatar author={reply.answerer.name} />
         </div>
         <div className='reply_user_info'>
-          <h5 onClick={handleMention}>{reply.name} <span id='reply_user_designation'>({reply.role})</span></h5>
+          <h5 onClick={handleMention}>{reply.answerer.name} <span id='reply_user_designation'>({reply.answerer.role})</span></h5>
           <p>{diff < 60?`${diff} min ago`:`${new Date(reply.date).toDateString()}`}</p>
         </div>
         {canDelete && <div className='reply_tool_btns'>
           <button onClick={handleDelete}><i className="fa-solid fa-trash"></i></button>
         </div>}
       </div>
-      <p onClick={() => setReadMore(prev => !prev)} style={readMore?null:clamp}>{!parent && <span id='reply_mention'>@{reply.mention}</span>} {reply.content}</p>
-      {parent && <button id='reply_btn' onClick={() => setShow(prev => !prev)}><i className="fa-solid fa-reply"></i></button>}
+      <p onClick={() => setReadMore(prev => !prev)} style={readMore?null:clamp}>{!parent && <span id='reply_mention'>@{reply?.mention}</span>} {reply.reply}</p>
+      {parent && <button id='reply_btn' onClick={handleSubReplies}><i className="fa-solid fa-reply"></i></button>}
     </div>
       {
-        show && <SubReply key={`${reply._id}+${Date.now().toString()}`} mention={reply.name} replies={reply.child} addReply={addReply} parentId={reply._id} removeReply={removeReply} />
+        show && <SubReply key={`${reply._id}+${Date.now().toString()}`} mention={reply.answerer.name} replies={reply.subreplies} addReply={addReply} parentId={reply._id} removeReply={removeReply} />
       }
       </div>
   )

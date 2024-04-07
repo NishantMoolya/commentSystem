@@ -4,12 +4,14 @@ import Avatar from './Avatar'
 
 const SubReplyBar = ({mention,triggerReply}) => {
     const initialData = {
-        name:"nishant moolya",
+        answerer:{
+          name:"nishant moolya",
+          role:"student"
+        },
         date:"",
-        content:"",
+        reply:"",
         mention:mention,
-        _id:null,
-        role:"student"
+        _id:"",
       }
       const [content,setContent] = useState(initialData);
       const handleContent = (e) => {
@@ -17,11 +19,11 @@ const SubReplyBar = ({mention,triggerReply}) => {
         setContent(prev => ({...prev,[name]:value}));
       }
       const handleReply = () => {
-        if(content.content !== ""){
-            content.content = content.content.trim();
+        if(content.reply !== ""){
+            content.reply = content.reply.trim();
             content.date = new Date();
             content._id = Date.now();
-            triggerReply(content);
+            triggerReply([content]);
             setContent(initialData);
         }else{
             alert("write something");
@@ -34,7 +36,7 @@ const SubReplyBar = ({mention,triggerReply}) => {
             </div>
             <div className='subreply_input'>
             <p>@{content.mention}</p>
-            <textarea name="content" rows={1} placeholder='your reply' value={content.content} onChange={handleContent} />
+            <textarea name="reply" rows={1} placeholder='your reply' value={content.reply} onChange={handleContent} />
             </div>
             <button className='subreply_reply_btn' onClick={handleReply}><i className="fa-solid fa-paper-plane"></i></button>
     </div>

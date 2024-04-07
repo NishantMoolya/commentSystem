@@ -18,8 +18,8 @@ const SubReply = ({ replies,addReply,mention,parentId,removeReply }) => {
         <SubReplyBar key={parentId} mention={mention} triggerReply={triggerReply} />
         {
             replies.map((reply,ind) => <>
-            <Reply key={reply.id?reply.id:ind} parent={false} reply={reply} handleMention={() => handleMention(ind)} removeReply={removeReply} />
-            {(show === ind)&& <SubReplyBar triggerReply={triggerReply} mention={reply.name} key={reply.id?reply.id:ind} />}
+            <Reply key={reply._id?reply._id:ind} parent={false} reply={reply} handleMention={() => handleMention(ind)} removeReply={removeReply} />
+            {(show === ind)&& <SubReplyBar triggerReply={triggerReply} mention={reply.name} key={reply._id?reply._id:ind} />}
             </>
           )
         }

@@ -9,7 +9,7 @@ const ReplyBox = ({ addReply }) => {
     child:[],
     parent:true,
     content:"",
-    id:null,
+    _id:null,
     role:"student"
   }
   const [content,setContent] = useState(initialData);
@@ -20,7 +20,7 @@ const ReplyBox = ({ addReply }) => {
   const handleReply = () => {
     content.content = content.content.trim();
     content.date = new Date();
-    content.id = Date.now();
+    content._id = Date.now();
     addReply(content);
     setContent(initialData);
   }

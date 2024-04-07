@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import '../styles/reply.css'
-import avatar from '../assets/person1.jpg'
 import SubReply from './SubReply';
 import Avatar from './Avatar';
 
@@ -25,7 +24,7 @@ const Reply = ({ parent,reply,addReply,handleMention,removeReply }) => {
     const answer = window.confirm("Reply will be deleted permanantly");
     if (answer) {
       if(parent) removeReply();
-      else removeReply(reply.id);
+      else removeReply(reply._id);
     }
   }
   return (
@@ -47,7 +46,7 @@ const Reply = ({ parent,reply,addReply,handleMention,removeReply }) => {
       {parent && <button id='reply_btn' onClick={() => setShow(prev => !prev)}><i className="fa-solid fa-reply"></i></button>}
     </div>
       {
-        show && <SubReply key={`${reply.id}+${Date.now().toString()}`} mention={reply.name} replies={reply.child} addReply={addReply} parentId={reply.id} removeReply={removeReply} />
+        show && <SubReply key={`${reply._id}+${Date.now().toString()}`} mention={reply.name} replies={reply.child} addReply={addReply} parentId={reply._id} removeReply={removeReply} />
       }
       </div>
   )

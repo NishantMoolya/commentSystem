@@ -1,29 +1,26 @@
 import React from 'react'
-import avatar from '../assets/person1.jpg'
 import Avatar from './Avatar'
 import '../styles/questionmain.css'
 
-const QuestionMain = () => {
-    const val = 5;
+const QuestionMain = ({ questionData }) => {
   return (
     <div className='question_frame'>
         <div className='question_main_div'>
         <div className='question_user_avatar'>
-        <Avatar author={"nishant moolya"} />
+        <Avatar author={questionData.questioner.name} />
         </div>
             <div className='question_header'>
                 <div className='question_userinfo'>
-                <h4>nishant moolya</h4>
-                <h6>faculty</h6>
+                <h4>{questionData.questioner.name}</h4>
+                <h6>{questionData.questioner.role}</h6>
                 </div>
-                <p>wed 9 oct 2024</p>
+                <p>{new Date(questionData.date).toDateString()}</p>
             </div>
         </div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit reprehenderit sunt esse suscipit sed minus. Laudantium cumque cupiditate soluta distinctio!
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque sapiente praesentium deleniti. Modi et distinctio quasi nam. Eligendi, iure recusandae! </p>
+            <p>{questionData.question}</p>
             <div className='question_buttons'>
-                <button><i className="fa-solid fa-thumbs-up"></i><span>{val > 99?"99+":val}</span></button>
-                <button><i className="fa-solid fa-thumbs-down"></i><span id='question_downvote'>{val > 99?"99+":val}</span></button>
+                <button><i className="fa-solid fa-thumbs-up"></i><span>{questionData.votes > 99?"99+":questionData.votes}</span></button>
+                <button><i className="fa-solid fa-thumbs-down"></i><span id='question_downvote'>{questionData.votes > 99?"99+":questionData.votes}</span></button>
             </div>
     </div>
   )

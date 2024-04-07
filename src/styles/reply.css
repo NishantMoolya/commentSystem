@@ -12,10 +12,9 @@
     align-items: center;
     gap: 0.5rem;
 }
-.reply_user_avatar > img{
+.reply_user_avatar{
     height: 3rem;
     width: 3rem;
-    border-radius: 50%;
 }
 .reply_frame > p{
     padding-inline: 0.5em;
@@ -76,9 +75,9 @@
         border-radius: 0.8rem;
         margin-block: 0.2rem;
     }
-    .reply_user_avatar > img{
-        height: 2rem;
-        width: 2rem;
+    .reply_user_avatar{
+        height: 1.9rem;
+        width: 1.9rem;
     }
     .reply_user_info > h5{
         font-size: 0.8rem;

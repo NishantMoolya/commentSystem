@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import '../styles/replybox.css'
-import avatar from '../assets/person1.jpg'
+import Avatar from './Avatar'
 
 const ReplyBox = ({ addReply }) => {
   const initialData = {
@@ -27,7 +27,9 @@ const ReplyBox = ({ addReply }) => {
   return (
     <div className='replybox_frame'>
         <div className='replybox_header'>
-        <img src={avatar} alt="" className='replybox_user_avatar' />
+        <div className='replybox_user_avatar'>
+        <Avatar author={"nishant moolya"} />
+        </div>
         <h4>nishant moolya</h4>
         </div>
         <div className='replybox_main_section'>

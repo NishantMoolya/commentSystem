@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import '../styles/reply.css'
 import avatar from '../assets/person1.jpg'
 import SubReply from './SubReply';
+import Avatar from './Avatar';
 
 const Reply = ({ parent,reply,addReply,handleMention,removeReply }) => {
   const [show, setShow] = useState(false);
@@ -32,7 +33,7 @@ const Reply = ({ parent,reply,addReply,handleMention,removeReply }) => {
     <div className='reply_frame'>
       <div className='reply_header'>
         <div className='reply_user_avatar'>
-          <img src={avatar} alt="" />
+          <Avatar author={reply.name} />
         </div>
         <div className='reply_user_info'>
           <h5 onClick={handleMention}>{reply.name} <span id='reply_user_designation'>({reply.role})</span></h5>

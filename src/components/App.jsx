@@ -11,8 +11,8 @@ const App = () => {
     <>
       <nav style={{height:"3rem",backgroundColor:"var(--primary-color)"}}></nav>
       <div style={{display:'flex'}}>
-      <section style={{...seccss}}></section>
-      {/* <section style={{...seccss,...dis}}></section> */}
+      {/* <section style={{...seccss}}></section> */}
+      <section style={{...seccss,...dis}}></section>
       <ReplyPage />
       </div>
     </>

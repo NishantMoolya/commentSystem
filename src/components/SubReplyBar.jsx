@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import '../styles/subreply.css'
-import avatar from '../assets/person1.jpg'
+import Avatar from './Avatar'
 
 const SubReplyBar = ({mention,triggerReply}) => {
     const initialData = {
@@ -29,7 +29,9 @@ const SubReplyBar = ({mention,triggerReply}) => {
       }  
   return (
     <div className='subreply_input_box'>
-            <img src={avatar} alt="" className='subreply_user_avatar' />
+            <div className='subreply_user_avatar'>
+              <Avatar author={mention} />
+            </div>
             <div className='subreply_input'>
             <p>@{content.mention}</p>
             <textarea name="content" rows={1} placeholder='your reply' value={content.content} onChange={handleContent} />

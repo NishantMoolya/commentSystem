@@ -18,11 +18,9 @@
     padding-top: 0.2rem;
     justify-content: center;
 }
-.question_user_avatar > img{
-    height: 4rem;
-    width: 4rem;
-    border-radius: 50%;
-    margin-bottom: auto;
+.question_user_avatar{
+    height: 3rem;
+    width: 3rem;
 }
 .question_main_div{
     display: flex;
@@ -31,6 +29,7 @@
     align-items: center;
     flex: 1;
     flex-wrap: wrap;
+    gap: 0.5rem;
 }
 .question_frame > p{
     font-size: 1.2rem;
@@ -93,9 +92,9 @@
     .question_frame{
         padding-inline: 0.3rem;
     }
-    .question_user_avatar > img{
-        height: 3rem;
-        width: 3rem;
+    .question_user_avatar{
+        height: 2.5rem;
+        width: 2.5rem;
     }
     .question_frame > p{
         font-size: 1rem;

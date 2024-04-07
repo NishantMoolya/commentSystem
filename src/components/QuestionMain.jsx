@@ -1,5 +1,6 @@
 import React from 'react'
 import avatar from '../assets/person1.jpg'
+import Avatar from './Avatar'
 import '../styles/questionmain.css'
 
 const QuestionMain = () => {
@@ -8,7 +9,7 @@ const QuestionMain = () => {
     <div className='question_frame'>
         <div className='question_main_div'>
         <div className='question_user_avatar'>
-        <img src={avatar} alt="user avatar" />
+        <Avatar author={"nishant moolya"} />
         </div>
             <div className='question_header'>
                 <div className='question_userinfo'>

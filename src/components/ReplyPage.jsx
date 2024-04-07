@@ -4,6 +4,7 @@ import '../styles/replypage.css'
 import Reply from './Reply'
 import ReplyBox from './ReplyBox'
 import replies from '../data/replies.json'
+import Avatar from './Avatar'
 
 const ReplyPage = () => {
   const [repliesData, setRepliesData] = useState(replies);

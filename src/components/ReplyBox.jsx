@@ -8,11 +8,8 @@ const ReplyBox = ({ addReply }) => {
       name:"nishant moolya",
       role:"student"
     },
-    date:"",
     subreplies:[],
-    parent:true,
-    reply:"",
-    _id:null,
+    reply:""
   }
   const [content,setContent] = useState(initialData);
   const handleContent = (e) => {
@@ -20,10 +17,8 @@ const ReplyBox = ({ addReply }) => {
     setContent(prev => ({...prev,[name]:value}));
   }
   const handleReply = () => {
-    content.content = content.reply.trim();
-    content.date = new Date();
-    content._id = Date.now();
-    addReply([content]);
+    content.reply = content.reply.trim();
+    addReply([content],false);
     setContent(initialData);
   }
   return (

@@ -3,6 +3,12 @@
     padding-inline: 1rem;
     background-color: var(--background-light);
     flex: 1;
+    height: 100vh;
+    overflow: scroll;
+    scroll-behavior: smooth;
+}
+.replypage_frame::-webkit-scrollbar{
+    display: none;
 }
 .replypage_replies{
     display:flex;

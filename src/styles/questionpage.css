@@ -1,0 +1,8 @@
+.questionpage_frame{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    flex: 1;
+    padding: 1rem;
+}

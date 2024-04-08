@@ -8,10 +8,8 @@ const SubReplyBar = ({mention,triggerReply}) => {
           name:"nishant moolya",
           role:"student"
         },
-        date:"",
         reply:"",
         mention:mention,
-        _id:"",
       }
       const [content,setContent] = useState(initialData);
       const handleContent = (e) => {
@@ -21,8 +19,6 @@ const SubReplyBar = ({mention,triggerReply}) => {
       const handleReply = () => {
         if(content.reply !== ""){
             content.reply = content.reply.trim();
-            content.date = new Date();
-            content._id = Date.now();
             triggerReply([content]);
             setContent(initialData);
         }else{

@@ -1,14 +1,15 @@
 const baseURL = 'http://localhost:8000/v1/api';
+const getOptions = {
+    method:'GET',
+    headers:{
+        'Content-Type':"application/json"
+    },
+    crendentials:'include'
+}
 const fetcher = async (_id) => {
     try {
         const link = `/question/${_id}`;
-        const options = {
-            method:'GET',
-            headers:{
-                'Content-Type':"application/json"
-            }
-        }
-        const res = await fetch(baseURL+link,options);
+        const res = await fetch(baseURL+link,getOptions);
         if (res.status === 200) {
             return await res.json();
         }else{
@@ -16,19 +17,14 @@ const fetcher = async (_id) => {
         }
     } catch (err) {
         console.log(`an error occurred in fetching:${err}`);
+        return [];
     }
 }
 
-const fetchReplies = async (_id) => {
+const fetchReplies = async (_id,more) => {
     try {
-        const link = `/question/${_id}/reply?more=1`;
-        const options = {
-            method:'GET',
-            headers:{
-                'Content-Type':"application/json"
-            }
-        }
-        const res = await fetch(baseURL+link,options);
+        const link = `/question/${_id}/reply?more=${more}`;
+        const res = await fetch(baseURL+link,getOptions);
         if (res.status === 200) {
             return await res.json();
         }else{
@@ -36,19 +32,14 @@ const fetchReplies = async (_id) => {
         }
     } catch (err) {
         console.log(`an error occurred in fetching:${err}`);
+        return [];
     }
 }
 
-const fetchSubReplies = async (_id) => {
+const fetchSubReplies = async (_id,more) => {
     try {
-        const link = `/reply/${_id}?more=1`;
-        const options = {
-            method:'GET',
-            headers:{
-                'Content-Type':"application/json"
-            }
-        }
-        const res = await fetch(baseURL+link,options);
+        const link = `/reply/${_id}?more=${more}`;
+        const res = await fetch(baseURL+link,getOptions);
         if (res.status === 200) {
             return await res.json();
         }else{
@@ -56,7 +47,23 @@ const fetchSubReplies = async (_id) => {
         }
     } catch (err) {
         console.log(`an error occurred in fetching:${err}`);
+        return [];
     }
 }
 
-export { fetcher,fetchReplies,fetchSubReplies };
+const fetchAllQuestions = async () => {
+    try {
+        const link = `/question`;
+        const res = await fetch(baseURL+link,getOptions);
+        if (res.status === 200) {
+            return await res.json();
+        }else{
+            return [];
+        }
+    } catch (err) {
+        console.log(`an error occurred in fetching:${err}`);
+        return [];
+    }
+}
+
+export { fetcher,fetchReplies,fetchSubReplies,fetchAllQuestions };

@@ -1,19 +1,21 @@
 import React from 'react'
 import ReplyPage from './ReplyPage'
+import { Routes,Route } from 'react-router-dom'
+import QuestionPage from './QuestionPage'
+import { useNavigate } from 'react-router-dom'
 
 const App = () => {
-  const seccss = {
-    backgroundColor:"black",
-    width:"3rem",
-  }
-  const dis = { display:'none' }
+  const navigate = useNavigate();
   return (
     <>
       <nav style={{height:"3rem",backgroundColor:"var(--primary-color)"}}></nav>
       <div style={{display:'flex'}}>
-      {/* <section style={{...seccss}}></section> */}
-      <section style={{...seccss,...dis}}></section>
-      <ReplyPage />
+        <Routes>
+          <Route path='/' element={<><h1>Hello</h1><button onClick={() => navigate('/question')}>Go to questions</button></>} />
+          <Route path='/question' element={<QuestionPage />} />
+          <Route path='/question/:_id' element={<ReplyPage />} />
+          <Route path='*' element={"errorpage"} />
+        </Routes>
       </div>
     </>
   )

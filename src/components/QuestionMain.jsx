@@ -1,8 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Avatar from './Avatar'
 import '../styles/questionmain.css'
+import { voteQuestion } from '../api/voter'
 
 const QuestionMain = ({ questionData }) => {
+  const [likes,setLikes] = useState(questionData.votes);
+  const [lock,setLock] = useState(false);
+  const handleVote = () => {
+    if(!lock){
+      voteQuestion(questionData._id);
+      setLikes(prev => prev+1);
+      setLock(true);
+    }
+  }
   return (
     <div className='question_frame'>
         <div className='question_main_div'>
@@ -19,8 +29,9 @@ const QuestionMain = ({ questionData }) => {
         </div>
             <p>{questionData.question}</p>
             <div className='question_buttons'>
-                <button><i className="fa-solid fa-thumbs-up"></i><span>{questionData.votes > 99?"99+":questionData.votes}</span></button>
-                <button><i className="fa-solid fa-thumbs-down"></i><span id='question_downvote'>{questionData.votes > 99?"99+":questionData.votes}</span></button>
+                <button><i className="fa-solid fa-comment-dots"></i><span>{questionData.totalReplies > 99?"99+":questionData.totalReplies}</span></button>
+                <button><i className="fa-solid fa-thumbs-up" onClick={handleVote}></i><span>{likes > 99?"99+":likes}</span></button>
+                {/* <button><i className="fa-solid fa-thumbs-down"></i><span id='question_downvote'>{questionData.votes > 99?"99+":questionData.votes}</span></button> */}
             </div>
     </div>
   )

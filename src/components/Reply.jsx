@@ -28,16 +28,29 @@ const Reply = ({ parent,reply,addReply,handleMention,removeReply }) => {
       else removeReply(reply._id);
     }
   }
-  const [lock, setLock] = useState(true);
-  const handleSubReplies = () => {
-    setShow(prev => !prev);
-    if(lock && !show){
-      fetchSubReplies(reply._id).then(data => {
+  const [viewReplies, setViewReplies] = useState(true);
+  const [lazyParams,setLazyParams] = useState({
+    more:1,
+    canLoad:true,
+    isLoading:true
+  });
+  const lazyFetchSubReplies = () => {
+    if(lazyParams.canLoad){
+      setLazyParams(prev => ({...prev,isLoading:true}));
+      fetchSubReplies(reply._id,lazyParams.more).then(data => {
         console.log(data);
-        addReply(data,reply._id);
+        addReply(data,true,reply._id);
+        setLazyParams(prev => ({...prev,more:prev.more+1,isLoading:false}));
+        if(data.length === 0) setLazyParams(prev => ({...prev,canLoad:false,isLoading:false}));
       });
-      setLock(false);
     }
+  }
+  const showSubReplies = () => {
+    setShow(prev => !prev);
+    if(viewReplies && !show){
+      lazyFetchSubReplies();
+      setViewReplies(false);
+     }
   }
   return (
     <div>
@@ -48,17 +61,20 @@ const Reply = ({ parent,reply,addReply,handleMention,removeReply }) => {
         </div>
         <div className='reply_user_info'>
           <h5 onClick={handleMention}>{reply.answerer.name} <span id='reply_user_designation'>({reply.answerer.role})</span></h5>
-          <p>{diff < 60?`${diff} min ago`:`${new Date(reply.date).toDateString()}`}</p>
+          <p>{diff < 60?`${diff}min`:`${new Date(reply.date).toDateString()}`}</p>
         </div>
         {canDelete && <div className='reply_tool_btns'>
           <button onClick={handleDelete}><i className="fa-solid fa-trash"></i></button>
         </div>}
       </div>
       <p onClick={() => setReadMore(prev => !prev)} style={readMore?null:clamp}>{!parent && <span id='reply_mention'>@{reply?.mention}</span>} {reply.reply}</p>
-      {parent && <button id='reply_btn' onClick={handleSubReplies}><i className="fa-solid fa-reply"></i></button>}
+      {parent && <div className='reply_question_buttons'>
+      <button id="reply_btn"><i class="fa-solid fa-comment-dots"></i><span>{reply.totalReplies > 99?"99+":reply.totalReplies}</span></button>
+      <button id="reply_btn" onClick={showSubReplies}><i className="fa-solid fa-reply"></i></button>
+      </div>}
     </div>
       {
-        show && <SubReply key={`${reply._id}+${Date.now().toString()}`} mention={reply.answerer.name} replies={reply.subreplies} addReply={addReply} parentId={reply._id} removeReply={removeReply} />
+        show && <SubReply key={`${reply._id}+${Date.now().toString()}`} parentReply={reply} addReply={addReply} removeReply={removeReply} lazyFetchSubReplies={lazyFetchSubReplies} lazyParams={lazyParams} />
       }
       </div>
   )

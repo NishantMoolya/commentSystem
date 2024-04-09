@@ -4,6 +4,7 @@ import '../styles/questionpage.css'
 import { fetchAllQuestions } from '../api/fetcher';
 import { QuestionCreator } from '../api/replyPageCreators';
 import QuestionSkeletion from './QuestionSkeletion';
+import ReplySpinner from './ReplySpinner';
 
 const QuestionPage = () => {
   const [questionList,setQuestionList] = useState([]);  
@@ -19,13 +20,19 @@ const QuestionPage = () => {
     const { name,value } = e.target;
     setQuestionContent(prev => ({...prev,[name]:value}));
   }
+  const [posting,setPosting] = useState(false);
   const postQuestion = () => {
     if(questionContent.question !== ''){
+      setPosting(true);
       QuestionCreator(questionContent).then(data => {
         const { date,_id } = data;
         setQuestionList(prev => ([...prev,{...questionContent,date:date,_id:_id}]));
+        setPosting(false);
+        setShowInput(false);
       });
       setQuestionContent(initialContent);
+    }else{
+      alert("write something");
     }
   }
   useEffect(() => {
@@ -55,7 +62,7 @@ const QuestionPage = () => {
           <button onClick={askQuestion}>{showInput?<i class="fa-solid fa-chevron-down"></i>:<i className="fa-solid fa-chevron-up"></i>}</button>
           </div>
           <textarea style={{display:showInput?display.display:'none'}} id='textarea' name="question" placeholder='Ex. How to decide our goal in life' value={questionContent.question} onChange={handleQuestion} />
-          {showInput && <button onClick={postQuestion}>Ask</button> }
+          {showInput && (!posting?<button onClick={postQuestion}>Ask</button>:<span style={{width:"1.7rem",alignSelf:"flex-end",marginRight:"1rem"}}><ReplySpinner /></span>)}
         </div>
         
     </div>

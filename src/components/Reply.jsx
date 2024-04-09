@@ -35,7 +35,7 @@ const Reply = ({ parent,reply,addReply,handleMention,removeReply }) => {
     isLoading:true
   });
   const lazyFetchSubReplies = () => {
-    if(lazyParams.canLoad){
+    if(lazyParams.canLoad && (reply.totalReplies > 0)){
       setLazyParams(prev => ({...prev,isLoading:true}));
       fetchSubReplies(reply._id,lazyParams.more).then(data => {
         console.log(data);
@@ -43,6 +43,8 @@ const Reply = ({ parent,reply,addReply,handleMention,removeReply }) => {
         setLazyParams(prev => ({...prev,more:prev.more+1,isLoading:false}));
         if(data.length === 0) setLazyParams(prev => ({...prev,canLoad:false,isLoading:false}));
       });
+    }else{
+      setLazyParams(prev => ({...prev,isLoading:false}));
     }
   }
   const showSubReplies = () => {

@@ -8,6 +8,7 @@ import { fetchReplies, fetcher } from '../api/fetcher'
 import { masterCreator } from '../api/replyPageCreators'
 import { useParams } from 'react-router-dom'
 import Loader from './Loader'
+import { deleteReply } from '../api/deleteReply'
 
 const ReplyPage = () => {
   //const questionId = "6613fe1a6e7e2ce61b60b96f";
@@ -22,11 +23,7 @@ const ReplyPage = () => {
       }else{
         masterCreator(content[0],`/question/${questionId}/reply`).then(data => {
           const { _id,date } = data;
-          content[0].date = date;
-          content[0]._id = _id;
-          content[0].parent = true;
-          content[0].subreplies = [];
-          content[0] = {...content[0],date:date,_id:_id,parent:true,subreplies:[]};
+          content[0] = {...content[0],date:date,_id:_id,parent:true,subreplies:[],totalReplies:0};
           setRepliesData(prev => ([...content,...prev]));
         });
       }
@@ -40,9 +37,10 @@ const ReplyPage = () => {
       }else{
         masterCreator(content[0],`/reply/${id}`,questionId).then(data => {
           const { _id,date } = data;
-          content[0].date = date;
-          content[0]._id = _id;
-          content[0].parent = false;
+          // content[0].date = date;
+          // content[0]._id = _id;
+          // content[0].parent = false;
+          content[0] = {...content[0],date:date,_id:_id,parent:false};
           const parentPos = repliesData.findIndex(reply => reply._id === id);
           let parentdata = repliesData.at(parentPos);
           parentdata.subreplies = [...parentdata.subreplies,...content];
@@ -50,20 +48,23 @@ const ReplyPage = () => {
         })
       }
     }
-    console.log('runned');
   }
 
   const removeReply = (parentId,childId = 0) => {
     if(childId === 0){
-      const pos = repliesData.findIndex(reply => reply._id === parentId);
-      setRepliesData([...repliesData].toSpliced(pos,1));
+      deleteReply(questionId,`?replyId=${parentId}`).then(res => {
+        const pos = repliesData.findIndex(reply => reply._id === parentId);
+        setRepliesData([...repliesData].toSpliced(pos,1));
+      })
     }else{
-      const parentPos = repliesData.findIndex(reply => reply._id === parentId);
-      const childPos = repliesData[parentPos].subreplies.findIndex(reply => reply._id === childId);
-      const data = repliesData[parentPos].subreplies.toSpliced(childPos,1);
-      const newData = repliesData.at(parentPos);
-      newData.subreplies = data;
-      setRepliesData([...repliesData].toSpliced(parentPos,1,newData));
+      deleteReply(questionId,`/reply?parentId=${parentId}&subreplyId=${childId}`).then(res => {
+        const parentPos = repliesData.findIndex(reply => reply._id === parentId);
+        const childPos = repliesData[parentPos].subreplies.findIndex(reply => reply._id === childId);
+        const data = repliesData[parentPos].subreplies.toSpliced(childPos,1);
+        const newData = repliesData.at(parentPos);
+        newData.subreplies = data;
+        setRepliesData([...repliesData].toSpliced(parentPos,1,newData));
+      })
     }
   }
   const [questionData,setQuestionData] = useState(null);
@@ -113,7 +114,7 @@ const ReplyPage = () => {
         <ReplyBox addReply={addReply} />
         <div className='replypage_replies'>
           {
-            repliesData.map((reply,ind) => <Reply key={reply._id} parent={reply.parent} reply={reply} addReply={addReply} removeReply={(childId) => removeReply(reply._id,childId)} setRepliesData={setRepliesData} />)
+            repliesData.map((reply,ind) => <Reply key={reply._id} parent={reply.parent} reply={reply} addReply={addReply} removeReply={(childId = 0) => removeReply(reply._id,childId)} setRepliesData={setRepliesData} />)
           }
         </div>
         <div>

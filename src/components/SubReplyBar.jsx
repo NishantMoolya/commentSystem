@@ -3,11 +3,11 @@ import '../styles/subreply.css'
 import Avatar from './Avatar'
 import ReplySpinner from './ReplySpinner'
 
-const SubReplyBar = ({mention,triggerReply}) => {
+const SubReplyBar = ({mention,triggerReply,userInfo}) => {
     const initialData = {
         answerer:{
-          name:"nishant moolya",
-          role:"student"
+          name:userInfo.name,
+          role:userInfo.role
         },
         reply:"",
         mention:mention,
@@ -31,7 +31,7 @@ const SubReplyBar = ({mention,triggerReply}) => {
   return (
     <div className='subreply_input_box'>
             <div className='subreply_user_avatar'>
-              <Avatar author={mention} />
+              <Avatar author={userInfo.name} />
             </div>
             <div className='subreply_input'>
             <p>@{content.mention}</p>

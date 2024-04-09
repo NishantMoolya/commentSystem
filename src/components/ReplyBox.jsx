@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import '../styles/replybox.css'
 import Avatar from './Avatar'
-import Loader from './Loader'
 import ReplySpinner from './ReplySpinner'
 
-const ReplyBox = ({ addReply,posting }) => {
+const ReplyBox = ({ addReply,posting,userInfo }) => {
   const initialData = {
     answerer:{
-      name:"nishant moolya",
-      role:"student"
+      name:userInfo.name,
+      role:userInfo.role
     },
     subreplies:[],
     reply:""
@@ -31,9 +30,9 @@ const ReplyBox = ({ addReply,posting }) => {
     <div className='replybox_frame'>
         <div className='replybox_header'>
         <div className='replybox_user_avatar'>
-        <Avatar author={"nishant moolya"} />
+        <Avatar author={userInfo.name} />
         </div>
-        <h4>nishant moolya</h4>
+        <h4>{userInfo.name}</h4>
         </div>
         <div className='replybox_main_section'>
             <textarea className='replybox_input' rows={'4'} placeholder='write your answer' name='reply' value={content.reply} onChange={handleContent} />

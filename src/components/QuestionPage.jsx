@@ -6,19 +6,21 @@ import { QuestionCreator } from '../api/replyPageCreators';
 import QuestionSkeletion from './QuestionSkeletion';
 import ReplySpinner from './ReplySpinner';
 
-const QuestionPage = () => {
+const QuestionPage = ({ userInfo }) => {
+  
   const [questionList,setQuestionList] = useState([]);  
   const initialContent = {
     question:"",
     questioner:{
-      name:"nishant moolya",
-      role:"student"
+      name:userInfo.name,
+      role:userInfo.role
     }
   }
   const [questionContent,setQuestionContent] = useState(initialContent);
   const handleQuestion = (e) => {
     const { name,value } = e.target;
     setQuestionContent(prev => ({...prev,[name]:value}));
+    console.log(questionContent.questioner.name,questionContent.questioner.role);
   }
   const [posting,setPosting] = useState(false);
   const postQuestion = () => {
@@ -58,8 +60,8 @@ const QuestionPage = () => {
         }
         <div className='question_writing_pad' style={showInput?display:null}>
           <div className='question_writing_pad_header'>
-          <h4>Ask a question. <i class="fa-solid fa-circle-question"></i></h4>
-          <button onClick={askQuestion}>{showInput?<i class="fa-solid fa-chevron-down"></i>:<i className="fa-solid fa-chevron-up"></i>}</button>
+          <h4>Ask a question. <i className="fa-solid fa-circle-question"></i></h4>
+          <button onClick={askQuestion}>{showInput?<i className="fa-solid fa-chevron-down"></i>:<i className="fa-solid fa-chevron-up"></i>}</button>
           </div>
           <textarea style={{display:showInput?display.display:'none'}} id='textarea' name="question" placeholder='Ex. How to decide our goal in life' value={questionContent.question} onChange={handleQuestion} />
           {showInput && (!posting?<button onClick={postQuestion}>Ask</button>:<span style={{width:"1.7rem",alignSelf:"flex-end",marginRight:"1rem"}}><ReplySpinner /></span>)}

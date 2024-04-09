@@ -4,7 +4,7 @@ import SubReply from './SubReply';
 import Avatar from './Avatar';
 import { fetchSubReplies } from '../api/fetcher';
 
-const Reply = ({ parent,reply,addReply,handleMention,removeReply }) => {
+const Reply = ({ parent,reply,addReply,handleMention,removeReply,userInfo }) => {
   const [show, setShow] = useState(false);
   const [readMore, setReadMore] = useState(false);
   const clamp = { WebkitLineClamp: 3 };
@@ -76,7 +76,7 @@ const Reply = ({ parent,reply,addReply,handleMention,removeReply }) => {
       </div>}
     </div>
       {
-        show && <SubReply key={`${reply._id}+${Date.now().toString()}`} parentReply={reply} addReply={addReply} removeReply={removeReply} lazyFetchSubReplies={lazyFetchSubReplies} lazyParams={lazyParams} />
+        show && <SubReply key={`${reply._id}+${Date.now().toString()}`} userInfo={userInfo} parentReply={reply} addReply={addReply} removeReply={removeReply} lazyFetchSubReplies={lazyFetchSubReplies} lazyParams={lazyParams} />
       }
       </div>
   )

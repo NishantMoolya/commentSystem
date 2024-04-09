@@ -3,7 +3,7 @@ import '../styles/replyspinner.css'
 
 const ReplySpinner = () => {
   return (
-    <div class="replyspinner"></div>
+    <div className="replyspinner"></div>
   )
 }
 

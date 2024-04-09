@@ -11,7 +11,7 @@ import Loader from './Loader'
 import QuestionSkeletion from './QuestionSkeletion'
 import { deleteReply } from '../api/deleteReply'
 
-const ReplyPage = () => {
+const ReplyPage = ({ userInfo }) => {
   //const questionId = "6613fe1a6e7e2ce61b60b96f";
   const params = useParams();
   const questionId = params._id;
@@ -89,15 +89,15 @@ const ReplyPage = () => {
   
   //to lazy load replies
   useEffect(() => {
-    fetchReplies(questionId,lazyParams.more).then(data => {
-      if(data.length === 0) {
-        setLazyParams(prev => ({...prev,canScroll:false,isLoading:false}));
-      }else{
-        setLazyParams(prev => ({...prev,isLoading:false}));
-        setRepliesData(prev => [...prev,...data]);
-      }
-      console.log(data);
-    })
+      fetchReplies(questionId,lazyParams.more).then(data => {
+        if(data.length === 0) {
+          setLazyParams(prev => ({...prev,canScroll:false,isLoading:false}));
+        }else{
+          setLazyParams(prev => ({...prev,isLoading:false}));
+          setRepliesData(prev => [...prev,...data]);
+        }
+        console.log(data);
+      })
   },[lazyParams.more]);
 
   
@@ -112,10 +112,10 @@ const ReplyPage = () => {
   return (
     <div className='replypage_frame' ref={replyPageRef} onScroll={() => handleScroll()}>
         {questionData?<QuestionMain key={questionData._id} questionData={questionData} />:<QuestionSkeletion />}
-        <ReplyBox addReply={addReply} posting={lazyParams.posting} />
+        <ReplyBox addReply={addReply} posting={lazyParams.posting} userInfo={userInfo} />
         <div className='replypage_replies'>
           {
-            !lazyParams.isLoading?repliesData.map((reply,ind) => <Reply key={reply._id} parent={reply.parent} reply={reply} addReply={addReply} removeReply={(childId = 0) => removeReply(reply._id,childId)} setRepliesData={setRepliesData} />)
+            repliesData.length !== 0?repliesData.map((reply,ind) => <Reply key={reply._id} userInfo={userInfo} parent={reply.parent} reply={reply} addReply={addReply} removeReply={(childId = 0) => removeReply(reply._id,childId)} setRepliesData={setRepliesData} />)
             :Array(3).fill(3).map((reply,ind) => <QuestionSkeletion key={ind} />)
           }
         </div>

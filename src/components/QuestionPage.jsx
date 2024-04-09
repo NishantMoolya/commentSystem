@@ -20,7 +20,7 @@ const QuestionPage = ({ userInfo }) => {
   const handleQuestion = (e) => {
     const { name,value } = e.target;
     setQuestionContent(prev => ({...prev,[name]:value}));
-    console.log(questionContent.questioner.name,questionContent.questioner.role);
+    //console.log(questionContent.questioner.name,questionContent.questioner.role);
   }
   const [posting,setPosting] = useState(false);
   const postQuestion = () => {

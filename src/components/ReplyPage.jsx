@@ -80,7 +80,7 @@ const ReplyPage = ({ userInfo }) => {
       if(questionData === null){
      fetcher(questionId).then(data => {
           if(data.length !== 0) setQuestionData(data);
-          console.log(data);
+          //console.log(data);
         });
       }
     },[]);
@@ -96,7 +96,7 @@ const ReplyPage = ({ userInfo }) => {
           setLazyParams(prev => ({...prev,isLoading:false}));
           setRepliesData(prev => [...prev,...data]);
         }
-        console.log(data);
+        //console.log(data);
       })
   },[lazyParams.more]);
 

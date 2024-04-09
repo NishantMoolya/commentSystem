@@ -5,13 +5,13 @@ import SubReplyBar from './SubReplyBar'
 import Loader from './Loader'
 
 const SubReply = ({ parentReply,addReply,removeReply,lazyFetchSubReplies,lazyParams }) => {
-  const [show, setShow] = useState(null);
+  const [show, setShow] = useState(false);
   const triggerReply = (content) => {
     addReply(content,false,parentReply._id);
-    setShow(null);
+    return true;
   }
   const handleMention = (ind) => {
-    if(show === ind) setShow(null);
+    if(show === ind) setShow(false);
     else setShow(ind);
   }
   return (

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import '../styles/subreply.css'
 import Avatar from './Avatar'
+import ReplySpinner from './ReplySpinner'
 
 const SubReplyBar = ({mention,triggerReply}) => {
     const initialData = {
@@ -16,10 +17,12 @@ const SubReplyBar = ({mention,triggerReply}) => {
         const { name,value } = e.target;
         setContent(prev => ({...prev,[name]:value}));
       }
+      const [posting,setPosting] = useState(false);
       const handleReply = () => {
         if(content.reply !== ""){
             content.reply = content.reply.trim();
-            triggerReply([content]);
+            const done = triggerReply([content]);
+            setPosting(done);
             setContent(initialData);
         }else{
             alert("write something");
@@ -34,7 +37,8 @@ const SubReplyBar = ({mention,triggerReply}) => {
             <p>@{content.mention}</p>
             <textarea name="reply" rows={1} placeholder='your reply' value={content.reply} onChange={handleContent} />
             </div>
-            <button className='subreply_reply_btn' onClick={handleReply}><i className="fa-solid fa-paper-plane"></i></button>
+            {!posting?<button className='subreply_reply_btn' onClick={handleReply}><i className="fa-solid fa-paper-plane"></i></button>:
+            <button id='reply_spinner_btn'><ReplySpinner /></button>}
     </div>
   )
 }

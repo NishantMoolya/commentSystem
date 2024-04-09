@@ -8,6 +8,7 @@ import { fetchReplies, fetcher } from '../api/fetcher'
 import { masterCreator } from '../api/replyPageCreators'
 import { useParams } from 'react-router-dom'
 import Loader from './Loader'
+import QuestionSkeletion from './QuestionSkeletion'
 import { deleteReply } from '../api/deleteReply'
 
 const ReplyPage = () => {
@@ -15,16 +16,24 @@ const ReplyPage = () => {
   const params = useParams();
   const questionId = params._id;
   const [repliesData, setRepliesData] = useState([]);
+  const [lazyParams,setLazyParams] = useState({
+    more:1,
+    canScroll:true,
+    isLoading:true,
+    posting:false
+  });
   
   const addReply = (content,lazy,id = 0) => {
     if(id === 0) {
       if(lazy){
         setRepliesData(prev => ([...content,...prev]));
       }else{
+        setLazyParams(prev => ({...prev,posting:true}));
         masterCreator(content[0],`/question/${questionId}/reply`).then(data => {
           const { _id,date } = data;
           content[0] = {...content[0],date:date,_id:_id,parent:true,subreplies:[],totalReplies:0};
           setRepliesData(prev => ([...content,...prev]));
+          setLazyParams(prev => ({...prev,posting:false}));
         });
       }
     }
@@ -37,9 +46,6 @@ const ReplyPage = () => {
       }else{
         masterCreator(content[0],`/reply/${id}`,questionId).then(data => {
           const { _id,date } = data;
-          // content[0].date = date;
-          // content[0]._id = _id;
-          // content[0].parent = false;
           content[0] = {...content[0],date:date,_id:_id,parent:false};
           const parentPos = repliesData.findIndex(reply => reply._id === id);
           let parentdata = repliesData.at(parentPos);
@@ -80,11 +86,7 @@ const ReplyPage = () => {
     },[]);
 
   const replyPageRef = useRef(null);
-  const [lazyParams,setLazyParams] = useState({
-    more:1,
-    canScroll:true,
-    isLoading:true
-  });
+  
   //to lazy load replies
   useEffect(() => {
     fetchReplies(questionId,lazyParams.more).then(data => {
@@ -101,8 +103,7 @@ const ReplyPage = () => {
   
   const handleScroll = () => {
     if(replyPageRef.current.clientHeight + replyPageRef.current.scrollTop+1 >= replyPageRef.current.scrollHeight){
-      if(lazyParams.canScroll){
-        console.log('hello'); 
+      if(lazyParams.canScroll && lazyParams.more < (questionData?.totalReplies/3)+1){
         setLazyParams(prev => ({...prev,more:prev.more+1,isLoading:true}));
       }
     }
@@ -110,11 +111,12 @@ const ReplyPage = () => {
 
   return (
     <div className='replypage_frame' ref={replyPageRef} onScroll={() => handleScroll()}>
-        {questionData && <QuestionMain key={questionData._id} questionData={questionData} />}
-        <ReplyBox addReply={addReply} />
+        {questionData?<QuestionMain key={questionData._id} questionData={questionData} />:<QuestionSkeletion />}
+        <ReplyBox addReply={addReply} posting={lazyParams.posting} />
         <div className='replypage_replies'>
           {
-            repliesData.map((reply,ind) => <Reply key={reply._id} parent={reply.parent} reply={reply} addReply={addReply} removeReply={(childId = 0) => removeReply(reply._id,childId)} setRepliesData={setRepliesData} />)
+            !lazyParams.isLoading?repliesData.map((reply,ind) => <Reply key={reply._id} parent={reply.parent} reply={reply} addReply={addReply} removeReply={(childId = 0) => removeReply(reply._id,childId)} setRepliesData={setRepliesData} />)
+            :Array(3).fill(3).map((reply,ind) => <QuestionSkeletion key={ind} />)
           }
         </div>
         <div>

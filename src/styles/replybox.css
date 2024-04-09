@@ -48,6 +48,14 @@
     border-radius: 1em;
     text-transform: capitalize;
 }
+#reply_spinner_btn{
+    align-self: flex-end;
+    border: none;
+    background-color: white;
+    border-radius: 1em;
+    width: 1.7rem;
+    text-align: center;
+}
 @media only screen and (max-width:550px) {
     .replybox_header{
         padding: 0.2rem;
